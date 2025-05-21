@@ -1,17 +1,24 @@
 import os
+
 import cv2
+
+
 DATA_DIR = './data'
 if not os.path.exists(DATA_DIR):
     os.makedirs(DATA_DIR)
+
 # num of input symbols u wanna take at each run time
 number_of_classes = 1  
 dataset_size = 100
+
 cap = cv2.VideoCapture(0)
 # the value at the above function to be changed from 0 to 1,2,3 based on the brand of computer
 for j in range(number_of_classes):
     if not os.path.exists(os.path.join(DATA_DIR, str(j))):
         os.makedirs(os.path.join(DATA_DIR, str(j)))
+
     print('Collecting data for class {}'.format(j))
+
     done = False
     while True:
         ret, frame = cap.read()
@@ -20,12 +27,14 @@ for j in range(number_of_classes):
         cv2.imshow('frame', frame)
         if cv2.waitKey(25) == ord('q'):
             break
+
     counter = 0
     while counter < dataset_size:
         ret, frame = cap.read()
         cv2.imshow('frame', frame)
         cv2.waitKey(25)
         cv2.imwrite(os.path.join(DATA_DIR, str(j), '{}.jpg'.format(counter)), frame)
+
         counter += 1
 
 cap.release()
